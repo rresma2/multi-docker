@@ -1,0 +1,23 @@
+language: generic 
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t robresma/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true robresma/react-test npm test
+
+after_success:
+    - docker build -t robresma/multi-client ./client
+    - docker build -t robresma/multi-nginx ./nginx
+    - docker build -t robresma/multi-worker ./worker
+    - docker build -t robresma/multi-server ./server
+    # Log in to the Docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin9
+    # Take those images and push them to docker hub
+    - docker push robresma/multi-client
+    - docker push robresma/multi-nginx
+    - docker push robresma/multi-worker
+    - docker push robresma/multi-server
