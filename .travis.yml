@@ -15,7 +15,7 @@ after_success:
     - docker build -t robresma/multi-worker ./worker
     - docker build -t robresma/multi-server ./server
     # Log in to the Docker CLI
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin9
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     # Take those images and push them to docker hub
     - docker push robresma/multi-client
     - docker push robresma/multi-nginx
