@@ -21,3 +21,16 @@ after_success:
     - docker push robresma/multi-nginx
     - docker push robresma/multi-worker
     - docker push robresma/multi-server
+
+deploy:
+    edge: true
+    provider: elasticbeanstack
+    region: "us-west-2"
+    app: "multi-docker"
+    env: "MultiDocker-env"
+    bucket_name: "elasticbeanstalk-us-west-2-499388976224"
+    bucket_path: "multi-docker"
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
